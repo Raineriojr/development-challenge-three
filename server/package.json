@@ -6,6 +6,7 @@
   "scripts": {
     "start": "tsx src/index.ts",
     "start:dev": "tsx watch src/index.ts",
+    "build":"tsup src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "prisma": {
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@types/node": "^18.13.0",
     "prisma": "^4.10.0",
+    "tsup": "^6.6.3",
     "tsx": "^3.12.3",
     "typescript": "^4.9.5"
   }
