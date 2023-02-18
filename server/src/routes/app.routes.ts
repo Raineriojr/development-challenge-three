@@ -3,7 +3,8 @@ import { FastifyInstance } from 'fastify';
 import IngredientsController from '../controllers/ingredientsController';
 import RecipesController from '../controllers/recipesController';
 
-export async function appRoutes (app: FastifyInstance) {  
+export async function appRoutes (app: FastifyInstance) {
+  app.get('/', () => { return "Running..." })  
   // Ingredient routes 
   app.get('/ingredients/list', IngredientsController.index)
   app.post('/ingredients/create', IngredientsController.create)
