@@ -19,5 +19,5 @@ app.register(appRoutes);
 
 app.listen({
   port: Number(PORT),
-  //host: "192.168.1.78"
+  host: '0.0.0.0'
 }).then(() => console.log(`Server running: ${BASE_URL}`));
