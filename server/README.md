@@ -6,8 +6,16 @@ Segue abaixo as referências
 - [Fastify](https://www.fastify.io/)
 - [Prisma](https://www.fastify.io/)
 - Typescript
+- Docker (development)
 
-## **ROTAS DA APLICAÇÃO**
+## **Etapas de execução**
+1. instalar dependências: `npm install`
+2. executar docker-compose.yml para subir banco de dados: `docker compose up` (obs: verificar configurações)
+3. Com o docker executando o banco de dados execute o comando `npx prisma migrate dev` para criar as tabelas no banco de dados
+4. adicionar seeds no banco: `npx prisma db seed`
+5. executar servidor: `npm run start:dev`
+
+## **Rotas da aplicação**
   
 - ## Teste de execução
   - GET - `/`
