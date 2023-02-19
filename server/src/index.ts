@@ -11,7 +11,10 @@ const BASE_URL = `http://localhost:${PORT}`;
 
 const app = fastify();
 
-app.register(fastifyCors);
+app.register(fastifyCors, {
+  origin: '*',
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+});
 app.register(appRoutes);
 
 app.listen({
