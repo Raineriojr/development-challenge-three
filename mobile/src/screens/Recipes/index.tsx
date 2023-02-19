@@ -9,6 +9,7 @@ import { LoadingList } from '../../components/loadingList';
 
 import { getRecipeList, searchRecipes } from "../../services/recipes.services";
 
+import { UserContext } from '../../context/userContext';
 import { style } from "./style";
 
 export function Recipes() {
@@ -18,6 +19,8 @@ export function Recipes() {
   const [recipeList, setRecipeList] = React.useState([]);
   const [searchQuery, setSearchQuery] = React.useState('');
   const [searchIsActive, setSearchIsActive] = React.useState(false);
+
+  const { ingredientList } = React.useContext(UserContext);
 
   const onChangeSearch = query => setSearchQuery(query);
 
@@ -32,6 +35,7 @@ export function Recipes() {
   }
 
   const _getRecipeList = async () => {
+    setRecipeList([])
     setSearchQuery('')
     const responseData = await getRecipeList();
 
@@ -39,8 +43,8 @@ export function Recipes() {
   }
 
   React.useEffect(() => {
-    _getRecipeList()
-  }, [])
+    _getRecipeList()    
+  }, [ingredientList])
 
   React.useEffect(() => {
     if (searchQuery.length === 0) {
@@ -48,15 +52,6 @@ export function Recipes() {
       _getRecipeList()
     }
   }, [searchQuery])
-
-  function LoadingComponent() {
-    if (recipeList === null) {
-      return <Text>Receita não encontrada</Text>
-    }
-    return (
-      <LoadingList />
-    )
-  }
 
   return (
     <View style={style.container}>
@@ -106,7 +101,7 @@ export function Recipes() {
           extraData={recipeList}
           keyExtractor={item => String(item.id)}
           showsVerticalScrollIndicator={false}
-          ListEmptyComponent={<LoadingComponent />}
+          ListEmptyComponent={<LoadingList array={recipeList} title="Receita não encontrada" />}
           renderItem={({ item, index }) => (
             <RecipeCard
               key={item.id}

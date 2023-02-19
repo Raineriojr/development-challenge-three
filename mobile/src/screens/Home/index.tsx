@@ -12,6 +12,7 @@ import { getIngredientList, removeIngredient, resetStock } from '../../services/
 
 import { style } from './style';
 import { fakeRecipes } from '../../utils';
+import { UserContext } from '../../context/userContext';
 
 
 export function Home() {
@@ -19,18 +20,18 @@ export function Home() {
   const goNewIngredient = () => navigation.navigate('newIngredient');
   const goEditIngredient = (data) => navigation.navigate('editIngredient', data);
 
-  const [ingredientList, setIngredienteList] = React.useState([]);
+  const { ingredientList, setIngredientList } = React.useContext<any>(UserContext);
 
   React.useEffect(() => {
     getList()
   }, [])
 
   const getList = async () => {
-    setIngredienteList([])
+    setIngredientList([])
     const listData = await getIngredientList()
 
     if(listData.data.ingredient.length === 0){
-      return setIngredienteList(null)
+      return setIngredientList(null)
     }
     
     let test = listData?.data.ingredient;
@@ -40,7 +41,7 @@ export function Home() {
         test.push(elem)
       }
     })
-    setIngredienteList(test);
+    setIngredientList(test);
   }
 
   const _removeIngredient = async (id: number) => {
@@ -51,15 +52,6 @@ export function Home() {
   const _resetStock = async (id: number) => {
     await resetStock(id);
     getList()
-  }
-
-  function LoadingComponent() {
-    if (ingredientList === null) {
-      return <Text>Você ainda não adicionou ingredientes à sua lista.</Text>
-    }
-    return (
-      <LoadingList />
-    )
   }
 
   return (
@@ -79,7 +71,7 @@ export function Home() {
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={item => item.name}
-          ListEmptyComponent={<LoadingList />}
+          ListEmptyComponent={<LoadingList array={fakeRecipes} />}
           renderItem={({ item, index }) => (
             <Card 
               key={`${index}-${item.name}`}
@@ -118,7 +110,7 @@ export function Home() {
           extraData={ingredientList}
           keyExtractor={item => String(item.id)}
           showsVerticalScrollIndicator={false}
-          ListEmptyComponent={<LoadingComponent />}
+          ListEmptyComponent={<LoadingList array={ingredientList} title="Você ainda não adicionou ingredientes à sua lista." />}
           renderItem={({ item, index }) => (
             <ItemList
               actions
